@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>kj countdown so shocking</title>
+</head>
+<style>
+  body {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  body red {
+    color: red;
+  }
+
+  .countdown {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 10rem;
+    font-weight: bold;
+  }
+  
+  .kj {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .box {
+    width: 40rem;
+    height: 2rem; 
+    background-color: whitesmoke;
+    border: 1px solid black;
+    margin-top: 1rem;
+    border-radius: 10px;
+  }
+</style>
+<body>
+  <div class="kj"><red>KJ</red> is in...</div>
+  <div class="countdown" id="skibidi">Fetching...</div>
+  <div class="box" id="info"></div>
+
+  <script>
+    setInterval(() => {
+      const now = Date.now();
+      const target = new Date();
+      target.setUTCHours(2, 0, 0, 0);
+
+      if (now > target) target.setUTCDate(target.getUTCDate() + 1);
+
+      if (now > target) {
+        document.getElementById("skibidi").textContent = "kj here";
+      } else {
+        const diff = target - now;
+        const hours = Math.floor(diff / 3600000).toString().padStart(2, '0');
+        const minutes = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+        const seconds = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+        document.getElementById("skibidi").textContent = `${hours}:${minutes}:${seconds}`;
+      }
+    }, 1000);
+    function info(data) {
+      const game = data
+      const formattedInfo = `Name: ${game.name} <br> Visits: ${game.visits} <br> Playing: ${game.playing} <br> Last Updated: ${game.updated}`;
+      document.getElementById("skibidi").textContent = formattedInfo
+    }
+    setInterval(() => {
+        fetch('https://games.roblox.com/v1/games?universeIds=3808081382')
+          .then(response => response.json())
+          .then(data => {
+            info(data.data[0])
+          })
+    }, 1000);
+  </script>
+</body>
+
+</html>
